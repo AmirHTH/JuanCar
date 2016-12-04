@@ -60,24 +60,30 @@ void loop() {
     //Leemos sonar para saber si podemos ir forward
     //Si la distancia es de mas de 30 cm podemos seguir adelante
     
+    servoSonar.write(90);
+    delay(500);
     leerSonar();
     if(distanciaSonar > 20){
         //Go forward
-        forward(500);
+        forward(50);
     }else{
+      brake(10);
       //Si hay un obstaculo a menos de 10 cm habra que girar.
       //Comprobamos obtáculos a derecha
       comprobarObstaculoSonarDcha();
       //Si no hay obstáculos en 10 cm, vamos a la derecha
       if(distanciaSonar > 10){
-        turnRight(500);
+        turnRight(50);
+        brake(10);
       } else{
         comprobarObstaculoSonarIzq();
         if(distanciaSonar > 10){
-          turnLeft(500);
+          turnLeft(50);
+          brake(10);
         } else{
           //Camino bloqueado en frente, izq y dcha. Vamos hacia atras.
-          backward(500);
+          backward(50);
+          brake(10);
         }
       }
     }
@@ -155,7 +161,6 @@ void disableMotors()
  
 void forward(int time)
 {
- servoSonar.write(90);
  motorAForward();
  motorBForward();
  delay(time);
